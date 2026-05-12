@@ -17,6 +17,7 @@ chrome.runtime.onInstalled.addListener(() => {
     instrument: "piano",
     instrumentList: ["piano"],
     reverb: 0,
+    recordFormat: "json",
   });
 });
 

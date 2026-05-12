@@ -27,7 +27,7 @@ const sharedBtn: React.CSSProperties = {
 export default function IndexPopup() {
   const [tab, setTab] = useState<"settings" | "songs">("settings");
   const [settings, setSettings] = useState<Settings>({
-    mode: "silent", volume: 0.7, showFloatingHint: true, octaveOffset: 0, instrument: "piano", instrumentList: ["piano"], reverb: 0,
+    mode: "silent", volume: 0.7, showFloatingHint: true, octaveOffset: 0, instrument: "piano", instrumentList: ["piano"], reverb: 0, recordFormat: "json",
   });
   const [songs, setSongs] = useState<Song[]>([]);
   const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
@@ -36,6 +36,8 @@ export default function IndexPopup() {
   const [pausedSongId, setPausedSongId] = useState<string | null>(null);
   const [loadingSongId, setLoadingSongId] = useState<string | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showRecDropdown, setShowRecDropdown] = useState(false);
+  const [exportDropdownId, setExportDropdownId] = useState<string | null>(null);
   const pausedAtRef = useRef(0);
   const isPausedRef = useRef(false);
   isPausedRef.current = isPaused;
@@ -46,7 +48,7 @@ export default function IndexPopup() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    chrome.storage.local.get(["mode", "volume", "showFloatingHint", "octaveOffset", "instrument", "instrumentList", "reverb"], (result) => {
+    chrome.storage.local.get(["mode", "volume", "showFloatingHint", "octaveOffset", "instrument", "instrumentList", "reverb", "recordFormat"], (result) => {
       if (chrome.runtime.lastError) return;
       if (result.mode !== undefined) setSettings((prev) => ({ ...prev, ...(result as Partial<Settings>) }));
     });
@@ -244,9 +246,16 @@ export default function IndexPopup() {
       `}</style>
       <div style={{ width: 420, padding: 24, fontFamily: `"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei","Segoe UI",sans-serif`, background: T.bg, color: T.text, lineHeight: 1.5 }}>
       {/* Header + Tabs */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: T.heading, fontFamily: `"Anthropic Serif",Georgia,serif`, letterSpacing: "-0.01em" }}>Keyplayer</h2>
-        <div style={{ display: "flex", gap: 4 }}>
+        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <a href="https://github.com/dolphinwesting248/Keyplayer" target="_blank" title="GitHub" style={{ display: "inline-flex", opacity: 0.35, transition: "opacity 0.15s", marginRight: 2 }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.65")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.35")}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill={T.muted}>
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
           {(["settings", "songs"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} style={{
               padding: "6px 14px", borderRadius: 8, border: "none",
@@ -355,6 +364,27 @@ export default function IndexPopup() {
             </button>
           </div>
 
+          {/* Recording Format */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <div style={{ ...labelCss, marginBottom: 0 }}>Recording</div>
+            <div style={{ position: "relative" }}>
+              <button onClick={() => setShowRecDropdown(!showRecDropdown)} style={{ padding: "5px 10px", borderRadius: 8, border: `1.5px solid ${T.faint}`, background: T.bg, color: T.text, fontSize: 12, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, boxShadow: shadow }}>
+                {settings.recordFormat === "midi" ? "MIDI" : "JSON"}
+                <span style={{ fontSize: 10, opacity: 0.4 }}>&#9660;</span>
+              </button>
+              {showRecDropdown && (
+                <div style={{ position: "absolute", top: 32, right: 0, background: T.surface, border: `1px solid ${T.border}`, borderRadius: 10, boxShadow: "0 4px 16px rgba(28,24,21,0.1)", zIndex: 10, padding: 6, minWidth: 80 }}>
+                  {(["json", "midi"] as const).map((fmt) => (
+                    <div key={fmt} onClick={() => { update("recordFormat", fmt); setShowRecDropdown(false); }}
+                      style={{ padding: "7px 14px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: T.text, whiteSpace: "nowrap", fontWeight: settings.recordFormat === fmt ? 600 : 400 }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "#faf4ef")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>{fmt.toUpperCase()}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Keyboard Diagram */}
           <div style={{ background: T.surface, borderRadius: radius, padding: 8, border: `1px solid ${T.border}`, boxShadow: shadow }}>
             <div style={{ ...labelCss, marginBottom: 6, marginLeft: 4, marginTop: 0 }}>
@@ -409,11 +439,23 @@ export default function IndexPopup() {
                       <div style={{ fontSize: 13, fontWeight: 500, color: T.heading, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{song.title}</div>
                       <div style={{ fontSize: 11, color: T.muted }}>{song.notes.length} notes · {fmtTime(songDuration(song))}</div>
                     </div>
-                    <IconBtn onClick={() => {
-                      const blob = new Blob([JSON.stringify({title:song.title,octave:song.octave,notes:song.notes},null,2)],{type:"application/json"});
-                      const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=`${song.title}.json`; a.click(); URL.revokeObjectURL(u);
-                    }} color={T.green} title="Export JSON"><DownloadIcon /></IconBtn>
-                    <IconBtn onClick={() => handleExportMidi(song)} color={T.accent} title="Export MIDI"><DownloadIcon /></IconBtn>
+                    <div style={{ position: "relative" }}>
+                      <IconBtn onClick={() => setExportDropdownId(exportDropdownId === song.id ? null : song.id)} color={T.accent} title="Export">
+                        <DownloadIcon />
+                      </IconBtn>
+                      {exportDropdownId === song.id && (
+                        <div style={{ position: "absolute", top: 36, right: 0, background: T.surface, border: `1px solid ${T.border}`, borderRadius: 10, boxShadow: "0 4px 16px rgba(28,24,21,0.1)", zIndex: 10, padding: 6, minWidth: 90 }}>
+                          <div onClick={() => { const blob=new Blob([JSON.stringify({title:song.title,octave:song.octave,notes:song.notes},null,2)],{type:"application/json"}); const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=`${song.title}.json`; a.click(); URL.revokeObjectURL(u); setExportDropdownId(null); }}
+                            style={{ padding: "7px 14px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: T.text, whiteSpace: "nowrap" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#faf4ef")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>JSON</div>
+                          <div onClick={() => { handleExportMidi(song); setExportDropdownId(null); }}
+                            style={{ padding: "7px 14px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: T.text, whiteSpace: "nowrap" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#faf4ef")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>MIDI</div>
+                        </div>
+                      )}
+                    </div>
                     <IconBtn onClick={() => deleteSong(song.id, song.title)} color={T.red} title="Delete"><DeleteIcon /></IconBtn>
                   </div>
                 );

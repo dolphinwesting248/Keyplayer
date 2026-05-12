@@ -121,7 +121,7 @@ The deep bass line and the piano melody from earlier are two completely differen
 
 ## Lesson 6 · Recording & Exporting
 
-Now you can play complete songs. Press `'` (the apostrophe key) to start recording, play what you want to record, then press `'` again to stop. A popup will prompt you to export as a JSON file.
+Now you can play complete songs. Press `'` (the apostrophe key) to start recording, play what you want to record, then press `'` again to stop. A popup will prompt you to export as a MIDI or JSON file.
 
 Recording automatically trims silence at the beginning and end, so you don't have to worry about extra quiet at the start or finish.
 

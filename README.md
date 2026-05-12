@@ -93,7 +93,7 @@ Each note can specify an instrument individually via the `i` field, allowing dif
 
 ## Recording
 
-Press `'` to start recording, press again to stop. Recordings are automatically trimmed of leading and trailing silence and can be exported as MIDI files.
+Press `'` to start recording, press again to stop. Recordings are automatically trimmed of leading and trailing silence and can be exported as MIDI or JSON files.
 
 ## Reverb
 

@@ -11,6 +11,7 @@ export interface Settings {
   instrument: InstrumentId;
   instrumentList: InstrumentId[];
   reverb: number;
+  recordFormat: "json" | "midi";
 }
 
 export interface SamplePoint {

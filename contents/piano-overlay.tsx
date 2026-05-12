@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import FloatingHint from "~/components/FloatingHint";
 import type { HintData, NoteHistoryEntry, ProgressHint } from "~/components/FloatingHint";
 import { audioPlayer } from "~/hooks/useAudioPlayer";
+import { songToMidi } from "~/utils/midi-export";
 import {
   type AppMode,
   type InstrumentId,
@@ -35,6 +36,7 @@ const DEFAULT_SETTINGS: Settings = {
   instrument: "piano",
   instrumentList: ["piano"],
   reverb: 0,
+  recordFormat: "json",
 };
 
 
@@ -77,7 +79,7 @@ export default function PianoOverlay() {
   // Load settings and wire audio progress on mount
   useEffect(() => {
     safeStorageGet(
-      ["mode", "volume", "showFloatingHint", "octaveOffset", "instrument", "reverb"],
+      ["mode", "volume", "showFloatingHint", "octaveOffset", "instrument", "reverb", "recordFormat"],
       (result) => {
         const merged = { ...DEFAULT_SETTINGS, ...result };
         setSettings(merged);
@@ -120,6 +122,9 @@ export default function PianoOverlay() {
         if (changes.reverb !== undefined) {
           next.reverb = changes.reverb.newValue;
           audioPlayer.setReverb(next.reverb);
+        }
+        if (changes.recordFormat) {
+          next.recordFormat = changes.recordFormat.newValue;
         }
         return next;
       });
@@ -320,22 +325,31 @@ export default function PianoOverlay() {
       return note;
     });
 
-    const song = {
-      title: `Key ${new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19)}`,
-      bpm: 120,
-      octave: 0,
-      notes,
-    };
+    const title = `Key ${new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19)}`;
+    const song = { title, bpm: 120, octave: 0, notes };
 
-    const blob = new Blob([JSON.stringify(song, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${song.title}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    safeStorageGet(["recordFormat"], (result) => {
+      const fmt = (result.recordFormat as string) || "json";
+      let blob: Blob, ext: string, type: string;
+      if (fmt === "midi") {
+        const midi = songToMidi(song as any);
+        blob = new Blob([midi as BlobPart], { type: "audio/midi" });
+        ext = "mid";
+        type = "audio/midi";
+      } else {
+        blob = new Blob([JSON.stringify(song, null, 2)], { type: "application/json" });
+        ext = "json";
+        type = "application/json";
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${title}.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
   }, []);
 
   const pushNoteToHistory = useCallback((entry: NoteHistoryEntry) => {
