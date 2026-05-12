@@ -1,0 +1,30 @@
+{
+  "name": "keyplayer",
+  "displayName": "Keyplayer",
+  "version": "1.0.0",
+  "description": "Keyboard to Key.",
+  "author": "",
+  "manifest": {
+    "permissions": ["storage", "unlimitedStorage"],
+    "web_accessible_resources": [{
+      "resources": ["assets/sounds/**/*", "assets/icon-*.png", "assets/keyboard.png"],
+      "matches": ["<all_urls>"]
+    }]
+  },
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "plasmo": "^0.90.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.0",
+    "@types/chrome": "^0.0.280"
+  }
+}

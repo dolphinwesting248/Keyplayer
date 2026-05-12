@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.plasmo/
+build/
+.claude/
+.github/
+releases/
+
+
+*.zip
+narration.md
+
+songs/*
+!songs/canon-in-d.json
+!songs/Mii Channel.mid
