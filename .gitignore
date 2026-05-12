@@ -9,6 +9,8 @@ releases/
 *.zip
 narration.md
 
+website/
+
 songs/*
 !songs/canon-in-d.json
 !songs/Mii Channel.mid
