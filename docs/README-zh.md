@@ -8,10 +8,10 @@
 
 ## 安装
 
-1. 克隆项目后执行 `npm install && npm run build`
+1. 在 [Releases](https://github.com/dolphinwesting248/Keyplayer/release)中下载`Keyplayer.zip`并解压
 2. 打开 Chrome，进入 `chrome://extensions/`
 3. 开启「开发者模式」，点击「加载已解压的扩展程序」
-4. 选择 `dist/` 目录或构建输出的 `build/` 目录
+4. 选择解压出的目录
 
 ## 演奏
 

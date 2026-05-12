@@ -2,49 +2,48 @@
   <a style="color: blue" href="./docs/README-zh.md">中文</a> | <a>English</a>
 </div>
 
-
 # Keyplayer
 
 A browser extension that turns your keyboard into a musical instrument. Beyond typing, let your keyboard make sound for you.
 
 ## Installation
 
-1. Clone the project and run `npm install && npm run build`
+1. Download `Keyplayer.zip` from [Releases](https://github.com/dolphinwesting248/Keyplayer/releases) and unzip
 2. Open Chrome and go to `chrome://extensions/`
 3. Enable "Developer mode" and click "Load unpacked"
-4. Select the `dist/` directory or the build output `build/` directory
+4. Select the unzipped directory
 
 ## Playing
 
 Three rows of letter keys cover C1 to G#7, with `[` `]` to switch octaves:
 
-| Row                      | Keys                | Range     |
-| ------------------------ | ------------------- | --------- |
-| First row (white keys)   | Q W E R T Y U I O P | C4 ~ E5   |
-| Second row (black keys)  | A S D F G H J K L   | C#4 ~ G#5 |
-| Third row (lower octave) | Z X C V B N M       | C3 ~ B3   |
+| Row | Keys | Range |
+|-----|------|-------|
+| First row (white keys) | Q W E R T Y U I O P | C4 ~ E5 |
+| Second row (black keys) | A S D F G H J K L | C#4 ~ G#5 |
+| Third row (lower octave) | Z X C V B N M | C3 ~ B3 |
 
 ## Modes
 
-| Mode       | Description                                                  |
-| ---------- | ------------------------------------------------------------ |
-| **Play**   | Full keyboard performance, all keys trigger notes            |
+| Mode | Description |
+|------|-------------|
+| **Play** | Full keyboard performance, all keys trigger notes |
 | **Hybrid** | Auto-detects input fields — no trigger while typing, plays freely elsewhere |
-| **Silent** | Disables keyboard performance, background functions only     |
+| **Silent** | Disables keyboard performance, background functions only |
 
 ## Shortcuts
 
-| Key       | Function                                      |
-| --------- | --------------------------------------------- |
-| `` ` ``   | Switch mode                                   |
-| `-` `=`   | Decrease / Increase volume                    |
-| `[` `]`   | Lower / Raise octave                          |
-| `\`       | Toggle reverb                                 |
-| `;`       | Cycle through instruments                     |
+| Key | Function |
+|-----|----------|
+| `` ` `` | Switch mode |
+| `-` `=` | Decrease / Increase volume |
+| `[` `]` | Lower / Raise octave |
+| `\` | Toggle reverb |
+| `;` | Cycle through instruments |
 | `1` ~ `9` | Directly select instruments 1–9 from the list |
-| `'`       | Start / Stop recording                        |
-| Space     | Sustain pedal                                 |
-| Shift     | Velocity boost                                |
+| `'` | Start / Stop recording |
+| Space | Sustain pedal |
+| Shift | Velocity boost |
 
 ## Instruments
 
@@ -79,7 +78,7 @@ Supports importing JSON and MIDI song files for automatic playback.
 }
 ```
 
-> See [song-guide-en.md](./docs/song-guide-en.md) for details
+> See [song-guide-en.md](./song-guide-en.md) for details
 
 ### Per-Note Instrument
 
