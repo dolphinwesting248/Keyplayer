@@ -521,6 +521,7 @@ export default function PianoOverlay() {
       return;
     }
 
+    if (!e.key) return;
     const key = e.key.toLowerCase();
     if (pressedKeysRef.current.has(key)) return;
 
@@ -546,6 +547,7 @@ export default function PianoOverlay() {
   }, [showHint, showNoteHint]);
 
   const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    if (!e.key) return;
     const key = e.key.toLowerCase();
 
     if (e.code === "Space") {
