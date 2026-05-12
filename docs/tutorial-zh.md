@@ -26,10 +26,8 @@
 Q 是中央 C，向右依次是 D、E、F……现在来弹小星星：
 
 ```
-C C G G A A G
 Q Q T T Y Y T
 
-F F E E D D C
 R R E E W W Q
 ```
 
@@ -44,10 +42,8 @@ R R E E W W Q
 欢乐颂的主旋律比小星星音域更宽，有些音超出了默认键盘范围。按 `[` 降低八度、`]` 升高八度，弹出面板上能看到当前偏移值。
 
 ```
-E E F G  G F E D  C C D E  E D D
 E E W T  T R E W  Q Q W E  E W W
 
-E E F G  G F E D  C C D E  D C C
 E E W T  T R E W  Q Q W E  W Q Q
 ```
 
@@ -111,7 +107,6 @@ Q  E  T  +Y  T  E  Q
 练一个低音走向——按 `4` 切换到贝斯，弹：
 
 ```
-C  G  A  F
 Z  B  N  V
 ```
 
@@ -181,18 +176,12 @@ Z  B  N  V
 
 **和弦部**（保持钢琴，Space 持续）：
 
-在和弦进行上叠入旋律骨架。每三个音一组，第一组正常、第二组末尾加重：
+踏板继续保持，在和弦进行上叠入旋律骨架。每三个音一组，第一组正常、第二组末尾加重：
 
 ```
-Q W E   W E R   E R T   R T Y
-Q W E   W E +R   E R T   R T +Y
-```
-
-保持踏板踩住，每组音之间稍有停顿。第三四句往上走，情绪推进：
-
-```
-T Y U   Y U I   U I O   I O P
-T Y +U   Y U +I   U I O   I O +P
+( Q W E   W E +R   E R T   R T +Y
+  T Y U   Y U I   U I O   I O P
+  T Y +U  Y U +I  U I O   I O +P )
 ```
 
 到高音区仍然踩住踏板，最后四个和弦用重音收束。

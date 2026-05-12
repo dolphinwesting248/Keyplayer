@@ -26,10 +26,8 @@ Row 3 (Low notes)   Z X C V B N M
 Q is Middle C. To the right are D, E, F... Now let's play Twinkle Twinkle Little Star:
 
 ```
-C C G G A A G
 Q Q T T Y Y T
 
-F F E E D D C
 R R E E W W Q
 ```
 
@@ -44,10 +42,8 @@ You should notice: **normal typing is affected**—you can't fill in forms, type
 The main melody of Ode to Joy has a wider range than Twinkle Twinkle Little Star, and some notes are beyond the default keyboard range. Press `[` to lower the octave and `]` to raise it. You can see the current offset value in the popup panel.
 
 ```
-E E F G  G F E D  C C D E  E D D
 E E W T  T R E W  Q Q W E  E W W
 
-E E F G  G F E D  C C D E  D C C
 E E W T  T R E W  Q Q W E  W Q Q
 ```
 
@@ -111,7 +107,6 @@ Click **+** to freely add or remove instruments from the list. Press `1` for pia
 Practice a bass line—press `4` to switch to bass and play:
 
 ```
-C  G  A  F
 Z  B  N  V
 ```
 
@@ -184,15 +179,9 @@ Hold Space through both repetitions, and only hold Shift at the `+` marks to emp
 Layer the melodic skeleton over the chord progression. Play in groups of three notes—first group normal, end of the second group accented:
 
 ```
-Q W E   W E R   E R T   R T Y
-Q W E   W E +R   E R T   R T +Y
-```
-
-Keep the pedal held, with a slight pause between each group. The third and fourth phrases move upward, building emotion:
-
-```
-T Y U   Y U I   U I O   I O P
-T Y +U   Y U +I   U I O   I O +P
+( Q W E   W E +R   E R T   R T +Y
+  T Y U   Y U I   U I O   I O P
+  T Y +U  Y U +I  U I O   I O +P )
 ```
 
 Still hold the pedal when reaching the high register. The final four chords close with accented power.
