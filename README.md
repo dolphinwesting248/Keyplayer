@@ -13,6 +13,8 @@ A browser extension that turns your keyboard into a musical instrument. Beyond t
 3. Enable "Developer mode" and click "Load unpacked"
 4. Select the unzipped directory
 
+> See [tutorial-en.md](./docs/tutorial-en.md) for a step-by-step guide
+
 ## Playing
 
 Three rows of letter keys cover C1 to G#7, with `[` `]` to switch octaves:
