@@ -83,14 +83,21 @@ export default function PianoOverlay() {
         setSettings(merged);
         audioPlayer.setVolume(merged.volume);
         audioPlayer.setReverb(merged.reverb);
-        audioPlayer.init(INSTRUMENTS[merged.instrument as InstrumentId] ?? INSTRUMENTS.piano);
+        if (merged.mode !== "silent") {
+          audioPlayer.init(INSTRUMENTS[merged.instrument as InstrumentId] ?? INSTRUMENTS.piano);
+        }
       },
     );
 
     const removeListener = safeOnChanged((changes) => {
       setSettings((prev) => {
         const next = { ...prev };
-        if (changes.mode) next.mode = changes.mode.newValue;
+        if (changes.mode) {
+          next.mode = changes.mode.newValue;
+          if (next.mode !== "silent" && prev.mode === "silent") {
+            audioPlayer.init(INSTRUMENTS[next.instrument] ?? INSTRUMENTS.piano);
+          }
+        }
         if (changes.volume) {
           next.volume = changes.volume.newValue;
           audioPlayer.setVolume(next.volume);
@@ -103,7 +110,9 @@ export default function PianoOverlay() {
         }
         if (changes.instrument) {
           next.instrument = changes.instrument.newValue;
-          audioPlayer.init(INSTRUMENTS[next.instrument] ?? INSTRUMENTS.piano);
+          if (next.mode !== "silent") {
+            audioPlayer.init(INSTRUMENTS[next.instrument] ?? INSTRUMENTS.piano);
+          }
         }
         if (changes.instrumentList) {
           next.instrumentList = changes.instrumentList.newValue;
@@ -139,8 +148,9 @@ export default function PianoOverlay() {
   const progressUpdaterRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const restoreUserInstrument = useCallback(() => {
-    const id = settingsRef.current.instrument;
-    const preset = INSTRUMENTS[id] ?? INSTRUMENTS.piano;
+    const s = settingsRef.current;
+    if (s.mode === "silent") return;
+    const preset = INSTRUMENTS[s.instrument] ?? INSTRUMENTS.piano;
     audioPlayer.init(preset);
   }, []);
 
@@ -467,9 +477,8 @@ export default function PianoOverlay() {
         const nextId = list[idx];
         safeStorageSet({ instrument: nextId });
         setSettings((prev) => ({ ...prev, instrument: nextId }));
-        const preset = INSTRUMENTS[nextId];
-        audioPlayer.init(preset);
-        if (preset.synthesis) {
+        if (s.mode !== "silent") { audioPlayer.init(INSTRUMENTS[nextId]); }
+        if (INSTRUMENTS[nextId].synthesis) {
           const progressHint: ProgressHint = { type: "progress", loaded: 0, total: 0, label: preset.label };
           if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
           setHint(progressHint);
@@ -488,9 +497,8 @@ export default function PianoOverlay() {
       const nextId = ids[(idx + 1) % ids.length] || ids[0];
       safeStorageSet({ instrument: nextId });
       setSettings((prev) => ({ ...prev, instrument: nextId }));
-      const preset = INSTRUMENTS[nextId];
-      audioPlayer.init(preset);
-      if (preset.synthesis) {
+      if (s.mode !== "silent") { audioPlayer.init(INSTRUMENTS[nextId]); }
+      if (INSTRUMENTS[nextId].synthesis) {
         const progressHint: ProgressHint = { type: "progress", loaded: 0, total: 0, label: preset.label };
         if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
         setHint(progressHint);
