@@ -17,6 +17,19 @@ Songs are JSON files with the following structure:
 }
 ```
 
+```json
+{ "s": 0,
+  "title": "My Song",
+  "bpm": 120,
+  "octave": 0,
+  "notes": [
+    { "t": 0,    "d": 500 },
+    { "s": 4, "t": 500,  "d": 500 },
+    { "s": 7, "t": 1000, "d": 500 }
+  ]
+}
+```
+
 ## Fields
 
 | Field | Type | Description |
@@ -46,6 +59,12 @@ Two formats for specifying pitch are supported.
 { "k": "Q", "t": 0, "d": 500 }            // C4
 { "k": "Q", "o": 1, "t": 500, "d": 500 }  // C5 (up one octave)
 { "k": "Z", "o": -1, "t": 1000, "d": 500 } // C2 (down one octave)
+```
+
+```json
+{ "s": 0, "t": 0, "d": 500 }            // C4
+{ "s": 12, "t": 500, "d": 500 }  // C5 (up one octave)
+{ "s": -24, "t": 1000, "d": 500 } // C2 (down one octave)
 ```
 
 - `k`: one of 26 letter keys (Q/P/Z/M etc.)
@@ -126,6 +145,12 @@ The `t` field of each note is the cumulative sum of previous note durations. Exa
 { "k": "E", "t": 1000, "d": 500 }
 ```
 
+```json
+{ "s": 0, "t": 0,    "d": 500 },
+{ "s": 2, "t": 500,  "d": 500 },
+{ "s": 4, "t": 1000, "d": 500 }
+```
+
 ### Chords
 
 Set the same `t` value for multiple notes to play them simultaneously:
@@ -134,6 +159,12 @@ Set the same `t` value for multiple notes to play them simultaneously:
 { "k": "Q", "t": 1000, "d": 800 },
 { "k": "E", "t": 1000, "d": 800 },
 { "k": "T", "t": 1000, "d": 800 }
+```
+
+```json
+{ "s": 0, "t": 1000, "d": 800 },
+{ "s": 4, "t": 1000, "d": 800 },
+{ "s": 7, "t": 1000, "d": 800 }
 ```
 
 ### Common Chord Formulas
@@ -172,6 +203,11 @@ Leave a time gap between consecutive `t + d` and the next `t`:
 { "k": "W", "t": 800,  "d": 500 }
 ```
 
+```json
+{ "s": 0, "t": 0,    "d": 500 },
+{ "s": 2, "t": 800,  "d": 500 }
+```
+
 `t + d = 500`, next `t = 800` — there is a 300ms rest between them.
 
 ### Notes
@@ -195,6 +231,23 @@ Leave a time gap between consecutive `t + d` and the next `t`:
     { "k": "Q",  "t": 0,    "d": 600 },
     { "k": "E",  "t": 0,    "d": 600 },
     { "k": "T",  "t": 0,    "d": 600 }
+  ]
+}
+```
+
+```json
+{ "s": 0,
+  "title": "C Major Arpeggio",
+  "bpm": 100,
+  "octave": 0,
+  "notes": [
+    { "t": 0,    "d": 600 },
+    { "s": 4, "t": 600,  "d": 600 },
+    { "s": 7, "t": 1200, "d": 600 },
+    { "s": 12, "t": 1800, "d": 1200 },
+    { "s": 0, "t": 0,    "d": 600 },
+    { "s": 4, "t": 0,    "d": 600 },
+    { "s": 7, "t": 0,    "d": 600 }
   ]
 }
 ```
