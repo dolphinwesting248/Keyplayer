@@ -25,7 +25,7 @@ export const INSTRUMENTS: Record<InstrumentId, InstrumentPreset> = {
       { noteName: "C7", semitone: 36,  file: "piano/piano-c7.wav" },
       { noteName: "C8", semitone: 48,  file: "piano/piano-c8.wav" },
     ],
-    semitoneMin: -48, semitoneMax: 48, baseGain: 2,
+    semitoneMin: -48, semitoneMax: 48, baseGain: 1.5,
   },
   chip: {
     id: "chip", label: "chip",
@@ -45,7 +45,7 @@ export const INSTRUMENTS: Record<InstrumentId, InstrumentPreset> = {
       { noteName: "C7", semitone: 36,  file: "guitar/guitar-c7.wav" },
     ],
     semitoneMin: -48, semitoneMax: 48,
-    baseGain: 1.5,
+    baseGain: 1.2,
   },
   eguitar: {
     id: "eguitar", label: "E-Guitar",
@@ -57,7 +57,7 @@ export const INSTRUMENTS: Record<InstrumentId, InstrumentPreset> = {
       { noteName: "C6", semitone: 24,  file: "eguitar/eguitar-c6.wav" },
     ],
     semitoneMin: -48, semitoneMax: 48,
-    baseGain: 1.2,
+    baseGain: 0.9,
   },
   bass: {
     id: "bass", label: "Bass",

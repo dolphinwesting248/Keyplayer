@@ -11,6 +11,8 @@ narration.md
 
 website/
 
+assets/*-samples/
+
 songs/*
 !songs/canon-in-d.json
 !songs/Mii Channel.mid
