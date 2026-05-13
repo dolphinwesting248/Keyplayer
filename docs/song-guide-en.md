@@ -31,6 +31,7 @@ Songs are JSON files with the following structure:
 | Field | Description |
 |-------|-------------|
 | `k` | Key name (e.g. Q, W). See reference table below. `s` (semitone) also supported as fallback |
+| `o` | *(optional)* Per-note octave shift (-5 to +5). `k` + `o` covers the full piano range |
 | `t` | Start time in milliseconds from the beginning of the song |
 | `d` | Duration in milliseconds. The note stops at `t + d` |
 | `i` | *(optional)* Instrument ID for this note. Supported values: `piano`, `chip`, `guitar`, `eguitar`, `bass`, `sax`, `organ`. If omitted, uses the default instrument |

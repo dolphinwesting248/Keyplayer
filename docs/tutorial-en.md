@@ -134,9 +134,9 @@ You can also import songs written by others for playback. Open the popup panel a
 After pausing, playback resumes from where you left off. Different notes in the same song can specify different instruments—
 
 ```json
-{ "k": "Z", "t": 0,   "d": 600, "i": "bass" },
-{ "k": "Q", "t": 0,   "d": 600, "i": "guitar" },
-{ "k": "T", "t": 600, "d": 400, "i": "organ" }
+{ "k": "Z", "o": -1, "t": 0,   "d": 600, "i": "bass" },
+{ "k": "Q", "t": 0,    "d": 600, "i": "guitar" },
+{ "k": "T", "o": 1,  "t": 600, "d": 400, "i": "organ" }
 ```
 
 Bass laying the foundation, guitar for rhythm, organ for melody—three tones in one song, switching automatically. Want to write your own songs? See [song-guide-en.md](./song-guide-en.md)

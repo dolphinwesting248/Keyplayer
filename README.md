@@ -87,8 +87,8 @@ Supports importing JSON and MIDI song files for automatic playback.
 Each note can specify an instrument individually via the `i` field, allowing different voices for different ranges within the same song:
 
 ```json
-{ "k": "Z", "t": 0, "d": 500, "i": "bass" },
-{ "k": "Q", "t": 0, "d": 500, "i": "guitar" }
+{ "k": "Z", "o": -1, "t": 0, "d": 500, "i": "bass" },
+{ "k": "Q", "o": 1,  "t": 0, "d": 500, "i": "guitar" }
 ```
 
 ## Recording
