@@ -139,7 +139,18 @@ After pausing, playback resumes from where you left off. Different notes in the 
 { "k": "T", "o": 1,  "t": 600, "d": 400, "i": "organ" }
 ```
 
-Bass laying the foundation, guitar for rhythm, organ for melody—three tones in one song, switching automatically. Want to write your own songs? See [song-guide-en.md](./song-guide-en.md)
+Bass laying the foundation, guitar for rhythm, organ for melody—three tones in one song, switching automatically.
+
+When writing songs, you can use either `k` + `o` (key name + octave) or `s` (semitone):
+
+```json
+// Format 1: k + o (intuitive)
+{ "k": "Z", "o": -1, "t": 0, "d": 600, "i": "bass" }
+// Format 2: s (precise)
+{ "s": -24, "t": 0, "d": 600, "i": "bass" }
+```
+
+Want to write your own songs? See [song-guide-en.md](./song-guide-en.md)
 
 ---
 

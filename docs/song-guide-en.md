@@ -10,9 +10,9 @@ Songs are JSON files with the following structure:
   "bpm": 120,
   "octave": 0,
   "notes": [
-    { "s": 0,  "t": 0,    "d": 500 },
-    { "s": 4,  "t": 500,  "d": 500 },
-    { "s": 7,  "t": 1000, "d": 500 }
+    { "k": "Q",  "t": 0,    "d": 500 },
+    { "k": "E",  "t": 500,  "d": 500 },
+    { "k": "T",  "t": 1000, "d": 500 }
   ]
 }
 ```
@@ -31,16 +31,42 @@ Songs are JSON files with the following structure:
 | Field | Description |
 |-------|-------------|
 | `k` | Key name (e.g. Q, W). See reference table below. `s` (semitone) also supported as fallback |
-| `o` | *(optional)* Per-note octave shift (-5 to +5). `k` + `o` covers the full piano range |
+| `o` | *(optional)* Per-note octave shift (-5 to +5) |
 | `t` | Start time in milliseconds from the beginning of the song |
 | `d` | Duration in milliseconds. The note stops at `t + d` |
 | `i` | *(optional)* Instrument ID for this note. Supported values: `piano`, `chip`, `guitar`, `eguitar`, `bass`, `sax`, `organ`. If omitted, uses the default instrument |
+
+### Two Note Formats
+
+Two formats for specifying pitch are supported.
+
+**Format 1: `k` + `o` (recommended)**
+
+```json
+{ "k": "Q", "t": 0, "d": 500 }            // C4
+{ "k": "Q", "o": 1, "t": 500, "d": 500 }  // C5 (up one octave)
+{ "k": "Z", "o": -1, "t": 1000, "d": 500 } // C2 (down one octave)
+```
+
+- `k`: one of 26 letter keys (Q/P/Z/M etc.)
+- `o`: optional, per-note octave shift. `k` + `o` covers the full piano range
+
+**Format 2: `s` (fallback)**
+
+```json
+{ "s": 0,  "t": 0, "d": 500 }  // C4
+{ "s": 12, "t": 0, "d": 500 }  // C5
+{ "s": -24,"t": 0, "d": 500 }  // C2
+```
+
+- `s`: semitone offset from C4
+- If both `k` and `s` are present on import, `s` takes priority
 
 ## Semitone Reference
 
 ### Row 1 — White Keys
 
-| Key | Note | `k` / `s` |
+| Key | Note | k / s |
 |-----|------|-----|
 | Q | C4 | 0 |
 | W | D4 | 2 |
@@ -55,7 +81,7 @@ Songs are JSON files with the following structure:
 
 ### Row 2 — Black Keys
 
-| Key | Note | `k` / `s` |
+| Key | Note | k / s |
 |-----|------|-----|
 | A | C#4 | 1 |
 | S | D#4 | 3 |
@@ -69,7 +95,7 @@ Songs are JSON files with the following structure:
 
 ### Row 3 — Lower Octave
 
-| Key | Note | `k` / `s` |
+| Key | Note | k / s |
 |-----|------|-----|
 | Z | C3 | -12 |
 | X | D3 | -10 |
@@ -95,9 +121,9 @@ At 120 BPM, one beat = 500ms. Use multiples:
 The `t` field of each note is the cumulative sum of previous note durations. Example quarter-note sequence:
 
 ```json
-{ "s": 0, "t": 0,    "d": 500 },
-{ "s": 2, "t": 500,  "d": 500 },
-{ "s": 4, "t": 1000, "d": 500 }
+{ "k": "Q", "t": 0,    "d": 500 },
+{ "k": "W", "t": 500,  "d": 500 },
+{ "k": "E", "t": 1000, "d": 500 }
 ```
 
 ### Chords
@@ -105,9 +131,9 @@ The `t` field of each note is the cumulative sum of previous note durations. Exa
 Set the same `t` value for multiple notes to play them simultaneously:
 
 ```json
-{ "s": 0, "t": 1000, "d": 800 },
-{ "s": 4, "t": 1000, "d": 800 },
-{ "s": 7, "t": 1000, "d": 800 }
+{ "k": "Q", "t": 1000, "d": 800 },
+{ "k": "E", "t": 1000, "d": 800 },
+{ "k": "T", "t": 1000, "d": 800 }
 ```
 
 ### Common Chord Formulas
@@ -142,8 +168,8 @@ Use the `octave` field to shift all notes without editing individual `s` values:
 Leave a time gap between consecutive `t + d` and the next `t`:
 
 ```json
-{ "s": 0, "t": 0,    "d": 500 },
-{ "s": 2, "t": 800,  "d": 500 }
+{ "k": "Q", "t": 0,    "d": 500 },
+{ "k": "W", "t": 800,  "d": 500 }
 ```
 
 `t + d = 500`, next `t = 800` — there is a 300ms rest between them.
@@ -162,13 +188,13 @@ Leave a time gap between consecutive `t + d` and the next `t`:
   "bpm": 100,
   "octave": 0,
   "notes": [
-    { "s": 0,  "t": 0,    "d": 600 },
-    { "s": 4,  "t": 600,  "d": 600 },
-    { "s": 7,  "t": 1200, "d": 600 },
-    { "s": 12, "t": 1800, "d": 1200 },
-    { "s": 0,  "t": 0,    "d": 600 },
-    { "s": 4,  "t": 0,    "d": 600 },
-    { "s": 7,  "t": 0,    "d": 600 }
+    { "k": "Q",  "t": 0,    "d": 600 },
+    { "k": "E",  "t": 600,  "d": 600 },
+    { "k": "T",  "t": 1200, "d": 600 },
+    { "k": "I", "t": 1800, "d": 1200 },
+    { "k": "Q",  "t": 0,    "d": 600 },
+    { "k": "E",  "t": 0,    "d": 600 },
+    { "k": "T",  "t": 0,    "d": 600 }
   ]
 }
 ```
