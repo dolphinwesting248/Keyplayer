@@ -198,21 +198,6 @@ class AudioPlayer {
     const { semitoneMin, semitoneMax } = this.currentPreset;
     const clamped = Math.max(semitoneMin, Math.min(semitoneMax, totalSemitone));
 
-    let buffer: AudioBuffer, detuneCents: number;
-    try {
-      const result = this.selectSample(clamped);
-      buffer = result.buffer;
-      detuneCents = result.detuneCents;
-    } catch {
-      // Sample not loaded — retry init
-      try { await this.init(); } catch { return; }
-      try {
-        const result = this.selectSample(clamped);
-        buffer = result.buffer;
-        detuneCents = result.detuneCents;
-      } catch { return; }
-    }
-
     const noteGain = this.audioContext!.createGain();
     noteGain.gain.value = velocity * (this.currentPreset.baseGain ?? 1);
 
@@ -225,7 +210,20 @@ class AudioPlayer {
       osc.start();
       this.activeSources.set(noteId, { source: osc, gain: noteGain });
     } else {
-      const { buffer, detuneCents } = this.selectSample(clamped);
+      let buffer: AudioBuffer, detuneCents: number;
+      try {
+        const result = this.selectSample(clamped);
+        buffer = result.buffer;
+        detuneCents = result.detuneCents;
+      } catch {
+        try { await this.init(); } catch { return; }
+        try {
+          const result = this.selectSample(clamped);
+          buffer = result.buffer;
+          detuneCents = result.detuneCents;
+        } catch { return; }
+      }
+
       const source = this.audioContext.createBufferSource();
       source.buffer = buffer;
       source.detune.value = detuneCents;
