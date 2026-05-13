@@ -18,12 +18,12 @@ Songs are JSON files with the following structure:
 ```
 
 ```json
-{ "s": 0,
+{ 
   "title": "My Song",
   "bpm": 120,
   "octave": 0,
   "notes": [
-    { "t": 0,    "d": 500 },
+    { "s": 0, "t": 0,    "d": 500 },
     { "s": 4, "t": 500,  "d": 500 },
     { "s": 7, "t": 1000, "d": 500 }
   ]
@@ -61,12 +61,6 @@ Two formats for specifying pitch are supported.
 { "k": "Z", "o": -1, "t": 1000, "d": 500 } // C2 (down one octave)
 ```
 
-```json
-{ "s": 0, "t": 0, "d": 500 }            // C4
-{ "s": 12, "t": 500, "d": 500 }  // C5 (up one octave)
-{ "s": -24, "t": 1000, "d": 500 } // C2 (down one octave)
-```
-
 - `k`: one of 26 letter keys (Q/P/Z/M etc.)
 - `o`: optional, per-note octave shift. `k` + `o` covers the full piano range
 
@@ -85,7 +79,7 @@ Two formats for specifying pitch are supported.
 
 ### Row 1 — White Keys
 
-| Key | Note | k / s |
+| K | Note | S |
 |-----|------|-----|
 | Q | C4 | 0 |
 | W | D4 | 2 |
@@ -100,7 +94,7 @@ Two formats for specifying pitch are supported.
 
 ### Row 2 — Black Keys
 
-| Key | Note | k / s |
+| K | Note | S |
 |-----|------|-----|
 | A | C#4 | 1 |
 | S | D#4 | 3 |
@@ -114,7 +108,7 @@ Two formats for specifying pitch are supported.
 
 ### Row 3 — Lower Octave
 
-| Key | Note | k / s |
+| K | Note | S |
 |-----|------|-----|
 | Z | C3 | -12 |
 | X | D3 | -10 |

@@ -69,7 +69,7 @@ Supports importing JSON and MIDI song files for automatic playback.
 
 ```json
 {
-  "title": "Song",
+  "title": "song",
   "bpm": 120,
   "octave": 0,
   "notes": [
