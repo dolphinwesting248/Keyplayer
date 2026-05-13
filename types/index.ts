@@ -34,7 +34,8 @@ export interface SongNote {
   s: number;
   t: number;
   d: number;
-  i?: InstrumentId; // per-note instrument override
+  i?: InstrumentId;
+  o?: number; // per-note octave shift (±5)
 }
 
 export interface Song {
