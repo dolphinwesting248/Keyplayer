@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AppMode, InstrumentId, Settings, Song } from "~/types";
-import { INSTRUMENTS, OCTAVE_MAX, OCTAVE_MIN } from "~/types";
+import { INSTRUMENTS, KEY_MAP, OCTAVE_MAX, OCTAVE_MIN } from "~/types";
 import { parseMidi } from "~/utils/midi";
 import { songToMidi } from "~/utils/midi-export";
 import { T, PlayIcon, PauseIcon, DeleteIcon, DownloadIcon, LoaderIcon, IconBtn, fmtTime, songDuration } from "./popup/components/Icons";
@@ -184,6 +184,7 @@ export default function IndexPopup() {
       try {
         const raw = JSON.parse(reader.result as string);
         if (!raw.notes?.length) return;
+        raw.notes.forEach((n: Record<string,unknown>) => { if (n.k && !n.s) n.s = KEY_MAP[(n.k as string).toLowerCase()]; });
         const song: Song = { id: `${Date.now()}`, title: raw.title || "Untitled", octave: raw.octave || 0, notes: raw.notes };
         saveSongs([...songs.filter((s) => s.title !== song.title), song]);
       } catch {}
