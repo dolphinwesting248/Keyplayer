@@ -6,6 +6,7 @@ import FloatingHint from "~/components/FloatingHint";
 import type { HintData, NoteHistoryEntry, ProgressHint } from "~/components/FloatingHint";
 import { audioPlayer } from "~/hooks/useAudioPlayer";
 import { songToMidi } from "~/utils/midi-export";
+import { semitoneToKey } from "~/types";
 import {
   type AppMode,
   type InstrumentId,
@@ -320,7 +321,7 @@ export default function PianoOverlay() {
     // Trim leading silence: subtract first note's t from all
     const offset = raw[0].t;
     const notes = raw.map((n) => {
-      const note: { s: number; t: number; d: number; i?: string } = { s: n.s, t: n.t - offset, d: n.d };
+      const note: { k: string; t: number; d: number; i?: string } = { k: semitoneToKey(n.s), t: n.t - offset, d: n.d };
       if (n.i) note.i = n.i;
       return note;
     });

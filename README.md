@@ -73,9 +73,9 @@ Supports importing JSON and MIDI song files for automatic playback.
   "bpm": 120,
   "octave": 0,
   "notes": [
-    { "s": 0, "t": 0,    "d": 500 },
-    { "s": 4, "t": 500,  "d": 500 },
-    { "s": 7, "t": 1000, "d": 500 }
+    { "k": "Q", "t": 0,    "d": 500 },
+    { "k": "E", "t": 500,  "d": 500 },
+    { "k": "T", "t": 1000, "d": 500 }
   ]
 }
 ```
@@ -87,8 +87,8 @@ Supports importing JSON and MIDI song files for automatic playback.
 Each note can specify an instrument individually via the `i` field, allowing different voices for different ranges within the same song:
 
 ```json
-{ "s": -20, "t": 0, "d": 500, "i": "bass" },
-{ "s": 0,   "t": 0, "d": 500, "i": "guitar" }
+{ "k": "Z", "t": 0, "d": 500, "i": "bass" },
+{ "k": "Q", "t": 0, "d": 500, "i": "guitar" }
 ```
 
 ## Recording

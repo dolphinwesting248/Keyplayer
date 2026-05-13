@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AppMode, InstrumentId, Settings, Song } from "~/types";
-import { INSTRUMENTS, KEY_MAP, OCTAVE_MAX, OCTAVE_MIN } from "~/types";
+import { INSTRUMENTS, KEY_MAP, OCTAVE_MAX, OCTAVE_MIN, semitoneToKey } from "~/types";
 import { parseMidi } from "~/utils/midi";
 import { songToMidi } from "~/utils/midi-export";
 import { T, PlayIcon, PauseIcon, DeleteIcon, DownloadIcon, LoaderIcon, IconBtn, fmtTime, songDuration } from "./popup/components/Icons";
@@ -446,7 +446,7 @@ export default function IndexPopup() {
                       </IconBtn>
                       {exportDropdownId === song.id && (
                         <div style={{ position: "absolute", top: 36, right: 0, background: T.surface, border: `1px solid ${T.border}`, borderRadius: 10, boxShadow: "0 4px 16px rgba(28,24,21,0.1)", zIndex: 10, padding: 6, minWidth: 90 }}>
-                          <div onClick={() => { const blob=new Blob([JSON.stringify({title:song.title,octave:song.octave,notes:song.notes},null,2)],{type:"application/json"}); const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=`${song.title}.json`; a.click(); URL.revokeObjectURL(u); setExportDropdownId(null); }}
+                          <div onClick={() => { const exportNotes=song.notes.map((n:any)=>{const o:any={k:n.k||semitoneToKey(n.s),t:n.t,d:n.d};if(n.i)o.i=n.i;return o;}); const blob=new Blob([JSON.stringify({title:song.title,octave:song.octave,notes:exportNotes},null,2)],{type:"application/json"}); const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=`${song.title}.json`; a.click(); URL.revokeObjectURL(u); setExportDropdownId(null); }}
                             style={{ padding: "7px 14px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: T.text, whiteSpace: "nowrap" }}
                             onMouseEnter={(e) => (e.currentTarget.style.background = "#faf4ef")}
                             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>JSON</div>

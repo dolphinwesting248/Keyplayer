@@ -115,6 +115,22 @@ export const VOLUME_STEP = 0.1;
 export const VELOCITY_BOOST = 1.3;
 export const MAX_NOTE_HISTORY = 3;
 
+const _semitoneToKey: Record<number, string> = {};
+for (const [k, v] of Object.entries(KEY_MAP)) {
+  if (!_semitoneToKey[v]) _semitoneToKey[v] = k;
+}
+export const SEMITONE_TO_KEY = _semitoneToKey;
+
+export function semitoneToKey(semitone: number): string {
+  if (SEMITONE_TO_KEY[semitone]) return SEMITONE_TO_KEY[semitone].toUpperCase();
+  let best = "Q", bestDist = Infinity;
+  for (const [k, v] of Object.entries(KEY_MAP)) {
+    const d = Math.abs(semitone - v);
+    if (d < bestDist) { bestDist = d; best = k; }
+  }
+  return best.toUpperCase();
+}
+
 export function getNoteName(semitoneOffset: number, octaveOffset: number): string {
   const total = semitoneOffset + octaveOffset * 12;
   const clamped = Math.max(SEMITONE_MIN, Math.min(SEMITONE_MAX, total));

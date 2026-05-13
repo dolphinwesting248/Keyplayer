@@ -30,7 +30,7 @@ Songs are JSON files with the following structure:
 
 | Field | Description |
 |-------|-------------|
-| `s` | Semitone offset relative to C4. See reference table below |
+| `k` | Key name (e.g. Q, W). See reference table below. `s` (semitone) also supported as fallback |
 | `t` | Start time in milliseconds from the beginning of the song |
 | `d` | Duration in milliseconds. The note stops at `t + d` |
 | `i` | *(optional)* Instrument ID for this note. Supported values: `piano`, `chip`, `guitar`, `eguitar`, `bass`, `sax`, `organ`. If omitted, uses the default instrument |
@@ -39,7 +39,7 @@ Songs are JSON files with the following structure:
 
 ### Row 1 — White Keys
 
-| Key | Note | `s` |
+| Key | Note | `k` / `s` |
 |-----|------|-----|
 | Q | C4 | 0 |
 | W | D4 | 2 |
@@ -54,7 +54,7 @@ Songs are JSON files with the following structure:
 
 ### Row 2 — Black Keys
 
-| Key | Note | `s` |
+| Key | Note | `k` / `s` |
 |-----|------|-----|
 | A | C#4 | 1 |
 | S | D#4 | 3 |
@@ -68,7 +68,7 @@ Songs are JSON files with the following structure:
 
 ### Row 3 — Lower Octave
 
-| Key | Note | `s` |
+| Key | Note | `k` / `s` |
 |-----|------|-----|
 | Z | C3 | -12 |
 | X | D3 | -10 |
